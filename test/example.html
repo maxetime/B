@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>B Test</title>
+    </head>
+    <body>
+        <input class="" tabindex="-1" b-model="list.name" value="">
+
+        <h1 b-model="list.name"></h1>
+
+        <input class="" tabindex="-1" value="" b-model="list.newitem" b-keydown="list.addItem">
+
+        Total <span b-model="list.items.length"></span>
+
+        <ol>
+            <li b-for="item in list.items" b-model="item.name"></li>
+        </ol>
+
+        <ol>
+            <li class="" tabindex="-1" b-click="duplicate" obj="1">
+                Item 1
+            </li>
+        </ol>
+        <script type="text/javascript">
+            var list = {
+                items : [
+                    {
+                        name : 'test'
+                    }
+                ],
+                name : 'List name',
+                addItem : function(el,ev){
+                    if(ev.keyCode == 13 && el.value.trim() != '' ){
+                        ev.preventDefault();
+                        list.items.push({
+                            name: el.value.trim()
+                        });
+                        el.value = '';
+                    };
+                },
+                removeItem: function(item){
+
+                }
+            };
+            function duplicate(el,ev){
+                ev.preventDefault();
+                var clEl = el.cloneNode(true);
+                var val = parseInt(clEl.getAttribute('obj'))+1;
+                clEl.setAttribute('obj',val);
+                clEl.innerHTML = 'Item '+val;
+                el.parentNode.insertBefore(clEl,el.nextSibling);
+                return false;
+            }
+        </script>
+        <script src="../src/b.js"></script>
+    </body>
+</html>
